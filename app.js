@@ -70,16 +70,20 @@ process.on('uncaughtException',(err)=>{
     console.error('--- UNCAUGHT EXCEPTION ---', err);})
 
 
-app.listen(3000,()=>{
-    console.log("Server Started");
-})
+const PORT = process.env.PORT || 3000;
+
 const startServer = async () => {
+  try {
     // First, connect to the database
     await connectToDB();
+
     // Then, start the Express server
-    app.listen(3000,()=>{
-        console.log("🚀 Server is running on http://localhost:3000");
-    })
+    app.listen(PORT, () => {
+      console.log(`🚀 Server is running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ Failed to start server:", error);
+  }
 };
 
 startServer();
